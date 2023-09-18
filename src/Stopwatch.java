@@ -1,3 +1,4 @@
+package src;
 /******************************************************************************
  *  Compilation:  javac Stopwatch.java
  *  Execution:    java Stopwatch n
