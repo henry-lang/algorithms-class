@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class Hadamard {
     static boolean square(int r, int c, int n) {
         if (n == 1) {
