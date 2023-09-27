@@ -1,13 +1,33 @@
 import java.util.HashMap;
 
-public class Hadamard {
+public class HadamardTryMemo {
+    static class Input {
+        int r, c, n;
+
+        public Input(int r, int c, int n) {
+            this.r = r;
+            this.c = c;
+            this.n = n;
+        }
+    }
+
+    static HashMap<Input, Boolean> memo = new HashMap<>();
+
     static boolean square(int r, int c, int n) {
         if (n == 1) {
             return false;
         }
 
+        Input input = new Input(r, c, n);
+        if (memo.containsKey(input)) {
+            return memo.get(input);
+        }
+
         boolean invert = r >= n / 2 && c >= n / 2;
-        return invert ^ square(r % (n / 2), c % (n / 2), n / 2);
+        boolean result = invert ^ square(r % (n / 2), c % (n / 2), n / 2);
+        memo.put(new Input(r % (n / 2), c % (n / 2), n / 2), result);
+
+        return result;
     }
 
     public static void main(String[] args) throws Exception {
