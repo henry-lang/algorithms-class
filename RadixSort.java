@@ -9,36 +9,50 @@ import java.util.Arrays;
 
 class RadixSort {
     static int[] radixSort(int[] arr) {
+        // Allocate digit bookkeeping array
         int[] digit = new int[10];
+
+        // Allocate the temporary array
         int[] newArr = new int[arr.length];
 
+        // Find max number in the array
         int maxNum = 0;
         for (int i = 0; i < arr.length; i++) {
             maxNum = Math.max(maxNum, arr[i]);
         }
 
+        // Find how many digits are in the max number
         int maxDigits = maxNum == 0 ? 1 : (int) (Math.log10(maxNum) + 1);
 
+        // For each digit...
         for (int d = 0; d < maxDigits; d++) {
             int place = (int) Math.pow(10, d);
+
+            // Count how many numbers have each digit in the place we're currently looking
+            // at
             for (int i = 0; i < arr.length; i++) {
                 digit[(arr[i] / place) % 10]++;
             }
 
+            // Prefix sum on the digit tally
             for (int i = 1; i < 10; i++) {
                 digit[i] = digit[i] + digit[i - 1];
             }
 
+            // Sort numbers by the current digit by traversing the current array backwards,
+            // filling up buckets
             for (int i = arr.length - 1; i >= 0; i--) {
                 int thisDigit = (arr[i] / place) % 10;
                 newArr[digit[thisDigit] - 1] = arr[i];
                 digit[thisDigit] -= 1;
             }
 
+            // Zero digit array for next iteration
             for (int i = 0; i < 10; i++) {
                 digit[i] = 0;
             }
 
+            // Copy temp array to original array
             for (int i = 0; i < arr.length; i++) {
                 arr[i] = newArr[i];
             }
